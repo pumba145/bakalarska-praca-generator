@@ -14,16 +14,16 @@
 <body class="bg-slate-950 text-slate-100 min-h-screen">
   <div class="max-w-4xl mx-auto px-4 py-10">
     
-    <!-- Navigation -->
-    <nav class="flex flex-wrap gap-4 mb-8 text-sm justify-center items-center">
-      <span class="text-indigo-400 font-medium">Generátor štruktúry</span>
+    <nav class="flex flex-wrap gap-3 mb-8 text-sm justify-center items-center">
+      <span class="text-indigo-400 font-medium">Generátor</span>
       <span class="text-slate-600">|</span>
-      <a href="ai-check.html" class="text-slate-400 hover:text-indigo-400 transition-colors">Overenie AI / zhody</a>
+      <a href="ai-check.html" class="text-slate-400 hover:text-indigo-400 transition-colors">Overenie AI</a>
+      <span class="text-slate-600">|</span>
+      <a href="humanizer.html" class="text-slate-400 hover:text-indigo-400 transition-colors">Humanizácia</a>
       <span class="text-slate-600">|</span>
       <span class="bg-emerald-900/50 text-emerald-300 text-xs px-2.5 py-1 rounded-full border border-emerald-700/50">UNIZA</span>
     </nav>
 
-    <!-- Header -->
     <header class="mb-10 text-center">
       <p class="text-emerald-400/90 text-sm font-medium mb-2">Žilinská univerzita v Žiline</p>
       <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-3">
@@ -34,12 +34,11 @@
       </p>
     </header>
 
-    <!-- Form -->
     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 mb-8 shadow-xl">
       <div class="space-y-5">
         <div>
           <label class="block text-sm font-medium text-slate-300 mb-1.5">Téma bakalárskej práce *</label>
-          <input id="tema" type="text" placeholder="napr. Optimalizácia logistických procesov v podniku" 
+          <input id="tema" type="text" placeholder="napr. Pasportizácia priecestných zabezpečovacích zariadení" 
             class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500">
         </div>
 
@@ -53,13 +52,13 @@
               <option value="FSI">FSI – Fakulta strojnícka</option>
               <option value="FEIT">FEIT – Fakulta elektrotechniky a IT</option>
               <option value="SvF">SvF – Stavebná fakulta</option>
-              <option value="PEDAS">PEDAS – Fakulta prevádzky a ekonomiky dopravy</option>
+              <option value="PEDAS" selected>PEDAS – Fakulta prevádzky a ekonomiky dopravy</option>
               <option value="ina">Iná / všeobecná</option>
             </select>
           </div>
           <div>
             <label class="block text-sm font-medium text-slate-300 mb-1.5">Odbor / študijný program</label>
-            <input id="odbor" type="text" placeholder="napr. Informatika, Logistika, Bezpečnosť" 
+            <input id="odbor" type="text" placeholder="napr. Železniná doprava, Logistika" 
               class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500">
           </div>
         </div>
@@ -75,7 +74,7 @@
           <div>
             <label class="block text-sm font-medium text-slate-300 mb-1.5">Odhadovaný rozsah</label>
             <select id="dlzka" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-              <option value="30">cca 30 normostrán (min. niektoré fakulty)</option>
+              <option value="30">cca 30 normostrán</option>
               <option value="40" selected>40–50 normostrán</option>
               <option value="50">50+ normostrán</option>
             </select>
@@ -84,94 +83,72 @@
 
         <button onclick="generovat()" 
           class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
-          </svg>
           Vygenerovať štruktúru podľa UNIZA
         </button>
       </div>
     </div>
 
-    <!-- Results -->
     <div id="vysledok" class="hidden space-y-8">
-      
       <div class="bg-amber-950/40 border border-amber-800/50 rounded-xl p-4 text-amber-200 text-sm">
         <strong>⚠️ Dôležité pre UNIZA:</strong> 
-        Dodržuj <strong>Smernicu č. 215</strong>, používaj citovanie podľa <strong>STN ISO 690</strong> (systém mena a dátumu). 
-        Prácu vkladáš do systému <strong>EZP</strong> (Evidencia záverečných prác). 
-        Použitie generatívnej AI sa riadi Príkazom rektora UNIZA – vždy prepracuj text vlastnými slovami a uveď zdroje.
+        Dodržuj <strong>Smernicu č. 215</strong>, používaj citovanie podľa <strong>STN ISO 690</strong>. 
+        Prácu vkladáš do systému <strong>EZP</strong>. 
+        Použitie AI sa riadi Príkazom rektora – vždy prepracuj text vlastnými slovami.
       </div>
 
-      <!-- Suggested titles -->
       <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
         <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
-          <span class="bg-indigo-600 text-xs px-2 py-1 rounded-md">1</span>
-          Návrhy názvov práce
+          <span class="bg-indigo-600 text-xs px-2 py-1 rounded-md">1</span> Návrhy názvov
         </h2>
         <ul id="navrhy-nazvov" class="space-y-2 text-slate-300"></ul>
       </section>
 
-      <!-- Outline UNIZA -->
       <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
         <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
-          <span class="bg-indigo-600 text-xs px-2 py-1 rounded-md">2</span>
-          Odporúčaná štruktúra podľa UNIZA (Smernica 215)
+          <span class="bg-indigo-600 text-xs px-2 py-1 rounded-md">2</span> Štruktúra podľa UNIZA
         </h2>
         <div id="struktura" class="space-y-1 text-slate-300 font-mono text-sm"></div>
       </section>
 
-      <!-- Goals -->
       <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
         <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
-          <span class="bg-indigo-600 text-xs px-2 py-1 rounded-md">3</span>
-          Ciele a výskumné otázky
+          <span class="bg-indigo-600 text-xs px-2 py-1 rounded-md">3</span> Ciele a výskumné otázky
         </h2>
         <div id="ciele" class="text-slate-300 space-y-3"></div>
       </section>
 
-      <!-- Citation note -->
       <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
         <h2 class="text-xl font-semibold mb-3">Citovanie na UNIZA</h2>
-        <p class="text-slate-300 text-sm mb-3">
-          Odporúčaná technika: <strong>systém mena a dátumu</strong> (Harvard) podľa <strong>STN ISO 690</strong>.
-        </p>
+        <p class="text-slate-300 text-sm mb-3">Odporúčaná technika: <strong>systém mena a dátumu</strong> (Harvard) podľa <strong>STN ISO 690</strong>.</p>
         <div class="bg-slate-950/60 rounded-xl p-4 text-sm text-slate-300 space-y-2 font-mono">
           <p>V texte: (Novák, 2022) alebo Novák (2022) uvádza, že…</p>
           <p>Doslovný citát: (Novák, 2022, s. 45)</p>
-          <p class="pt-2 border-t border-slate-700">V zozname literatúry (abecedne):</p>
-          <p>NOVÁK, J., 2022. <em>Názov knihy</em>. Žilina: EDIS.</p>
+          <p class="pt-2 border-t border-slate-700">V zozname literatúry: NOVÁK, J., 2022. <em>Názov knihy</em>. Žilina: EDIS.</p>
         </div>
       </section>
 
-      <!-- Prompts -->
       <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
         <h2 class="text-xl font-semibold mb-2 flex items-center gap-2">
-          <span class="bg-indigo-600 text-xs px-2 py-1 rounded-md">4</span>
-          Pripravené prompty na kapitoly
+          <span class="bg-indigo-600 text-xs px-2 py-1 rounded-md">4</span> Prompty na kapitoly
         </h2>
-        <p class="text-slate-400 text-sm mb-6">Skopíruj a vlož do Grok / ChatGPT. Potom text dôkladne prepracuj a doplň vlastné zdroje.</p>
+        <p class="text-slate-400 text-sm mb-6">Skopíruj a vlož do Grok. Potom text prepracuj a použi <a href="humanizer.html" class="text-indigo-400 hover:underline">Humanizáciu</a>.</p>
         <div id="prompty" class="space-y-5"></div>
       </section>
 
-      <!-- UNIZA tips -->
       <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-        <h2 class="text-xl font-semibold mb-4">Dôležité tipy pre študentov UNIZA</h2>
+        <h2 class="text-xl font-semibold mb-4">Tipy pre študentov UNIZA</h2>
         <ul class="list-disc list-inside text-slate-300 space-y-2 text-sm">
-          <li>Prácu odovzdávaš elektronicky do systému <strong>EZP</strong> (kniznica.uniza.sk/ezp).</li>
-          <li>Používaj oficiálnu <strong>šablónu</strong> práce podľa tvojej fakulty / Smernice 215.</li>
-          <li>Citovanie: jednotne podľa <strong>STN ISO 690</strong> (meno + rok).</li>
-          <li>Praktická časť by mala byť čo najviac originálna (reálne dáta, firma, merania…).</li>
-          <li>Kontrola originality prebieha cez univerzitný systém – pred odovzdaním si prácu skontroluj.</li>
-          <li>Pri použití AI dodržuj aktuálny <strong>Príkaz rektora</strong> o generatívnej AI.</li>
+          <li>Prácu odovzdávaš do systému <strong>EZP</strong> (kniznica.uniza.sk/ezp).</li>
+          <li>Citovanie: jednotne podľa <strong>STN ISO 690</strong>.</li>
+          <li>Po generovaní text humanizuj a skontroluj na stránke Overenie AI.</li>
+          <li>Praktickú časť stavaj na vlastných fotkách a terénnom prieskume.</li>
         </ul>
       </section>
     </div>
 
     <footer class="mt-16 text-center text-slate-500 text-sm space-y-1">
       <p>Upravené pre študentov <strong class="text-emerald-400">UNIZA</strong></p>
-      <p>
-        <a href="https://github.com/pumba145/bakalarska-praca-generator" class="text-indigo-400 hover:underline">Zdrojový kód</a>
-      </p>
+      <p><a href="https://github.com/pumba145/bakalarska-praca-generator" class="text-indigo-400 hover:underline">Zdrojový kód</a></p>
     </footer>
   </div>
 
@@ -181,102 +158,25 @@
       const odbor = document.getElementById('odbor').value.trim() || 'príslušný odbor';
       const fakulta = document.getElementById('fakulta').value;
       const jazyk = document.getElementById('jazyk').value;
-      const dlzka = document.getElementById('dlzka').value;
 
-      if (!tema) {
-        alert('Prosím, zadaj tému práce.');
-        return;
-      }
-
+      if (!tema) { alert('Prosím, zadaj tému práce.'); return; }
       const isSk = jazyk === 'sk';
 
-      // Návrhy názvov
       const nazvy = isSk ? [
         tema,
         `Analýza a návrh riešenia: ${tema}`,
         `${tema} – teoretické východiská a praktická aplikácia`,
-        `Hodnotenie a optimalizácia: ${tema}`,
-        `Skúmanie problematiky ${tema.toLowerCase()} v podmienkach praxe`
-      ] : [
-        tema,
-        `Analysis and Solution Design: ${tema}`,
-        `${tema} – Theoretical Background and Practical Application`,
-        `Evaluation and Optimisation of ${tema}`,
-        `An Investigation into ${tema} in Practical Conditions`
-      ];
+        `Hodnotenie a optimalizácia: ${tema}`
+      ] : [tema, `Analysis and Solution Design: ${tema}`, `${tema} – Theoretical Background and Practical Application`];
 
       document.getElementById('navrhy-nazvov').innerHTML = nazvy.map(n => 
-        `<li class="bg-slate-950/50 px-4 py-2.5 rounded-lg border border-slate-800">${n}</li>`
-      ).join('');
+        `<li class="bg-slate-950/50 px-4 py-2.5 rounded-lg border border-slate-800">${n}</li>`).join('');
 
-      // Štruktúra podľa UNIZA / Smernice 215
       const struktura = isSk ? [
-        '=== ÚVODNÁ ČASŤ ===',
-        'Obal',
-        'Titulný list',
-        'Zadanie záverečnej práce',
-        'Čestné vyhlásenie',
-        'Poďakovanie (nepovinné)',
-        'Abstrakt (SK) + kľúčové slová',
-        'Abstrakt (EN) + keywords',
-        'Obsah',
-        'Zoznam obrázkov a tabuliek (ak sú)',
-        'Zoznam skratiek (ak sú)',
-        '',
-        '=== HLAVNÁ TEXTOVÁ ČASŤ ===',
-        'Úvod',
-        '1. Teoretické východiská / Súčasný stav poznania',
-        '   1.1 Definície a základné pojmy',
-        '   1.2 Prehľad literatúry a relevantné prístupy',
-        '   1.3 Zhrnutie teoretickej časti',
-        '2. Cieľ práce a metodika',
-        '   2.1 Ciele a výskumné otázky / hypotézy',
-        '   2.2 Použité metódy a postup riešenia',
-        '   2.3 Charakteristika objektu skúmania / dát',
-        '3. Praktická časť / Výsledky a návrhy',
-        '   3.1 Analýza súčasného stavu',
-        '   3.2 Návrh riešenia / realizácia',
-        '   3.3 Vyhodnotenie a interpretácia',
-        '4. Diskusia',
-        '5. Záver',
-        '',
-        '=== ZÁVEREČNÁ ČASŤ ===',
-        'Zoznam použitej literatúry (ISO 690)',
-        'Prílohy (ak sú)'
-      ] : [
-        '=== PRELIMINARIES ===',
-        'Cover',
-        'Title page',
-        'Thesis assignment',
-        'Declaration',
-        'Acknowledgements (optional)',
-        'Abstract (SK) + keywords',
-        'Abstract (EN) + keywords',
-        'Table of contents',
-        'List of figures and tables (if any)',
-        'List of abbreviations (if any)',
-        '',
-        '=== MAIN TEXT ===',
-        'Introduction',
-        '1. Theoretical Background / State of the Art',
-        '   1.1 Definitions and Key Concepts',
-        '   1.2 Literature Review and Relevant Approaches',
-        '   1.3 Summary of the Theoretical Part',
-        '2. Aim and Methodology',
-        '   2.1 Aims and Research Questions / Hypotheses',
-        '   2.2 Methods and Solution Procedure',
-        '   2.3 Characteristics of the Object / Data',
-        '3. Practical Part / Results and Proposals',
-        '   3.1 Analysis of the Current State',
-        '   3.2 Solution Design / Implementation',
-        '   3.3 Evaluation and Interpretation',
-        '4. Discussion',
-        '5. Conclusion',
-        '',
-        '=== FINAL PART ===',
-        'References (ISO 690)',
-        'Appendices (if any)'
-      ];
+        '=== ÚVODNÁ ČASŤ ===','Obal','Titulný list','Zadanie','Čestné vyhlásenie','Abstrakt SK + EN','Obsah','Zoznam obrázkov a tabuliek','Zoznam skratiek','',
+        '=== HLAVNÁ TEXTOVÁ ČASŤ ===','Úvod','1. Teoretické východiská','   1.1 História a vývoj','   1.2 Legislatíva a normy','   1.3 Typy PZZ a prvky AŽD','   1.4 Bezpečnostné aspekty','2. Cieľ a metodika','3. Charakteristika úseku','4. Pasportizácia priecestí','5. Súhrnné zhodnotenie a riziká','6. Návrhy a odporúčania','7. Diskusia','8. Záver','',
+        '=== ZÁVEREČNÁ ČASŤ ===','Zoznam použitej literatúry (ISO 690)','Prílohy'
+      ] : ['=== PRELIMINARIES ===','Cover','Title page','Assignment','Abstracts','Contents','','=== MAIN TEXT ===','Introduction','1. Theoretical Background','2. Aim and Methodology','3. Practical Part','4. Discussion','5. Conclusion','','=== FINAL PART ===','References','Appendices'];
 
       document.getElementById('struktura').innerHTML = struktura.map(s => {
         if (!s) return '<div class="h-2"></div>';
@@ -285,164 +185,45 @@
         return `<div class="font-medium">${s}</div>`;
       }).join('');
 
-      // Ciele
-      const cieleHtml = isSk ? `
-        <p><strong>Hlavný cieľ:</strong> Analyzovať problematiku „${tema}“ a navrhnúť / vyhodnotiť riešenie v kontexte odboru ${odbor} (${fakulta}).</p>
+      document.getElementById('ciele').innerHTML = isSk ? `
+        <p><strong>Hlavný cieľ:</strong> Analyzovať a pasportizovať problematiku „${tema}“ v kontexte ${odbor} (${fakulta}).</p>
         <p><strong>Čiaštkové ciele:</strong></p>
         <ul class="list-disc list-inside space-y-1 ml-2">
-          <li>Spracovať teoretické východiská a súčasný stav poznania.</li>
-          <li>Definovať ciele, výskumné otázky a metodiku riešenia.</li>
-          <li>Realizovať praktickú časť (analýza, návrh, meranie, dotazník…).</li>
-          <li>Vyhodnotiť výsledky, formulovať závery a odporúčania pre prax.</li>
-        </ul>
-        <p class="mt-3"><strong>Príklad výskumných otázok:</strong></p>
-        <ul class="list-disc list-inside space-y-1 ml-2">
-          <li>Aké sú hlavné problémy súvisiace s témou ${tema.toLowerCase()}?</li>
-          <li>Ako je možné zlepšiť súčasný stav?</li>
-          <li>Aké prínosy prináša navrhnuté riešenie?</li>
-        </ul>
-      ` : `
-        <p><strong>Main aim:</strong> To analyse the issue of “${tema}” and propose / evaluate a solution within the field of ${odbor} (${fakulta}).</p>
-        <p><strong>Partial aims:</strong></p>
-        <ul class="list-disc list-inside space-y-1 ml-2">
-          <li>Process the theoretical background and current state of knowledge.</li>
-          <li>Define aims, research questions and the solution methodology.</li>
-          <li>Carry out the practical part (analysis, design, measurement, survey…).</li>
-          <li>Evaluate the results and formulate conclusions and recommendations.</li>
-        </ul>
-      `;
-      document.getElementById('ciele').innerHTML = cieleHtml;
+          <li>Spracovať teoretické východiská.</li>
+          <li>Vykonat terénny prieskum a pasportizáciu.</li>
+          <li>Zhodnotiť technický stav a identifikovať riziká.</li>
+          <li>Navrhnúť odporúčania.</li>
+        </ul>` : `<p><strong>Main aim:</strong> To analyse and passport the issue of “${tema}”.</p>`;
 
-      // Prompty
       const prompty = isSk ? [
-        {
-          nazov: '1. Úvod',
-          text: `Napíš úvod bakalárskej práce pre Žilinskú univerzitu v Žiline (UNIZA) na tému: "${tema}".
-Fakulta/odbor: ${fakulta} / ${odbor}.
-Jazyk: slovenčina.
-
-Úvod by mal obsahovať:
-- aktuálnosť a dôležitosť témy
-- krátky prehľad problematiky
-- cieľ práce a výskumné otázky
-- stručný popis štruktúry práce
-- rozsah cca 1,5–2 normostrany
-
-Píš odborným štýlom vhodným pre bakalársku prácu na UNIZA.`
-        },
-        {
-          nazov: '2. Teoretické východiská',
-          text: `Napíš teoretickú kapitolu bakalárskej práce (UNIZA) na tému: "${tema}".
-Odbor: ${odbor}.
-
-Kapitola by mala obsahovať:
-1. Definície kľúčových pojmov
-2. Prehľad súčasného stavu poznania a relevantnej literatúry
-3. Teoretické prístupy a metódy súvisiace s témou
-
-Citovanie: systém mena a dátumu (ISO 690), napr. (Autor, 2021).
-Rozsah: cca 10–15 normostrán.
-Na konci každej podkapitoly uveď, že je potrebné doplniť konkrétne citácie z literatúry.`
-        },
-        {
-          nazov: '3. Cieľ a metodika',
-          text: `Napíš kapitolu Cieľ práce a metodika pre bakalársku prácu UNIZA na tému: "${tema}".
-
-Obsah:
-- Hlavný a čiaštkové ciele
-- Výskumné otázky alebo hypotézy
-- Voľba a odôvodnenie metód (analýza, dotazník, meranie, modelovanie…)
-- Postup riešenia
-- Charakteristika objektu skúmania / dát
-
-Jazyk: slovenčina. Rozsah cca 3–5 normostrán.`
-        },
-        {
-          nazov: '4. Praktická časť',
-          text: `Navrhni praktickú časť bakalárskej práce pre UNIZA na tému: "${tema}".
-
-Štruktúra:
-- Analýza súčasného stavu (reálne prostredie, nie fiktívne)
-- Návrh riešenia / realizácia
-- Vyhodnotenie výsledkov a interpretácia
-
-Použi realistické (aj keď fiktívne) dáta a upozorni, že študent ich musí nahradiť vlastnými.
-Jazyk: slovenčina.`
-        },
-        {
-          nazov: '5. Diskusia a záver',
-          text: `Napíš kapitoly Diskusia a Záver pre bakalársku prácu UNIZA na tému: "${tema}".
-
-Diskusia:
-- Porovnanie výsledkov s literatúrou
-- Limity práce
-- Prínos pre prax / odbor
-
-Záver:
-- Zhrnutie hlavných zistení
-- Odpovede na ciele a výskumné otázky
-- Odporúčania a námety na ďalší výskum
-
-Jazyk: slovenčina.`
-        }
+        {nazov:'1. Úvod', text:`Napíš úvod bakalárskej práce pre UNIZA na tému: "${tema}".\nFakulta/odbor: ${fakulta} / ${odbor}.\nObsah: aktuálnosť, cieľ, metodika, štruktúra. Rozsah 1,5–2 strany.`},
+        {nazov:'2. Teoretická časť', text:`Napíš teoretickú kapitolu k téme "${tema}".\nPodkapitoly: história, legislatíva, typy zariadení, bezpečnosť.\nCitovanie ISO 690. Rozsah 12–16 strán.`},
+        {nazov:'3. Cieľ a metodika', text:`Napíš kapitolu Cieľ a metodika pre tému "${tema}".\nObsah: ciele, výskumné otázky, metodika terénneho prieskumu, charakteristika úseku.`},
+        {nazov:'4. Praktická časť', text:`Priprav šablónu pasportu jedného priecestia a súhrnné zhodnotenie pre tému "${tema}".`},
+        {nazov:'5. Diskusia a záver', text:`Napíš Diskusiu a Záver pre bakalársku prácu na tému "${tema}".`}
       ] : [
-        {
-          nazov: '1. Introduction',
-          text: `Write the introduction of a bachelor's thesis for the University of Žilina (UNIZA) on the topic: "${tema}".
-Faculty/field: ${fakulta} / ${odbor}.
-Language: English.
-
-Include: relevance of the topic, brief overview, aim and research questions, structure of the thesis. Approx. 1.5–2 pages. Academic style.`
-        },
-        {
-          nazov: '2. Theoretical Background',
-          text: `Write the theoretical chapter of a UNIZA bachelor's thesis on: "${tema}".
-Field: ${odbor}.
-
-Include definitions, literature review, relevant approaches. Use name-date citation (ISO 690). Length approx. 10–15 pages. Note that specific citations must be added.`
-        },
-        {
-          nazov: '3. Aim and Methodology',
-          text: `Write the Aim and Methodology chapter for a UNIZA bachelor's thesis on: "${tema}".
-
-Include: main and partial aims, research questions/hypotheses, methods and justification, procedure, object/data characteristics. English, approx. 3–5 pages.`
-        },
-        {
-          nazov: '4. Practical Part',
-          text: `Design the practical part of a UNIZA bachelor's thesis on: "${tema}".
-
-Structure: analysis of the current state, solution design/implementation, evaluation and interpretation. Use realistic (even if fictional) data and note that the student must replace them with own data.`
-        },
-        {
-          nazov: '5. Discussion and Conclusion',
-          text: `Write Discussion and Conclusion for a UNIZA bachelor's thesis on: "${tema}".
-
-Discussion: comparison with literature, limitations, contribution.
-Conclusion: summary of findings, answers to aims, recommendations.`
-        }
+        {nazov:'1. Introduction', text:`Write the introduction for a UNIZA bachelor thesis on "${tema}".`},
+        {nazov:'2. Theoretical part', text:`Write the theoretical chapter on "${tema}".`},
+        {nazov:'3. Methodology', text:`Write Aim and Methodology for "${tema}".`},
+        {nazov:'4. Practical part', text:`Prepare practical part structure for "${tema}".`},
+        {nazov:'5. Discussion and Conclusion', text:`Write Discussion and Conclusion for "${tema}".`}
       ];
 
-      document.getElementById('prompty').innerHTML = prompty.map((p, i) => `
+      document.getElementById('prompty').innerHTML = prompty.map((p,i) => `
         <div class="border border-slate-700 rounded-xl overflow-hidden">
           <div class="bg-slate-800/80 px-4 py-3 flex justify-between items-center">
             <span class="font-medium">${p.nazov}</span>
-            <button onclick="kopirovat('prompt-${i}')" class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded-lg transition-colors">
-              Kopírovať
-            </button>
+            <button onclick="kopirovat('prompt-${i}')" class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded-lg">Kopírovať</button>
           </div>
           <pre id="prompt-${i}" class="prompt-box p-4 text-sm text-slate-300 bg-slate-950/50 overflow-x-auto">${p.text}</pre>
-        </div>
-      `).join('');
+        </div>`).join('');
 
       document.getElementById('vysledok').classList.remove('hidden');
-      document.getElementById('vysledok').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('vysledok').scrollIntoView({behavior:'smooth'});
     }
 
     function kopirovat(id) {
-      const text = document.getElementById(id).innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        alert('Prompt bol skopírovaný!');
-      });
+      navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => alert('Skopírované!'));
     }
   </script>
 </body>

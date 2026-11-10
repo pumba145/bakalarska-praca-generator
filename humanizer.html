@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNIZA – Humanizácia textu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Inter', system-ui, sans-serif; }</style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+  <div class="max-w-4xl mx-auto px-4 py-10">
+
+    <nav class="flex flex-wrap gap-3 mb-8 text-sm justify-center items-center">
+      <a href="index.html" class="text-slate-400 hover:text-indigo-400 transition-colors">Generátor</a>
+      <span class="text-slate-600">|</span>
+      <a href="ai-check.html" class="text-slate-400 hover:text-indigo-400 transition-colors">Overenie AI</a>
+      <span class="text-slate-600">|</span>
+      <span class="text-indigo-400 font-medium">Humanizácia</span>
+      <span class="text-slate-600">|</span>
+      <span class="bg-emerald-900/50 text-emerald-300 text-xs px-2.5 py-1 rounded-full border border-emerald-700/50">UNIZA</span>
+    </nav>
+
+    <header class="mb-10 text-center">
+      <p class="text-emerald-400/90 text-sm font-medium mb-2">Žilinská univerzita v Žiline</p>
+      <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-3">
+        Humanizácia textu
+      </h1>
+      <p class="text-slate-400 text-lg max-w-2xl mx-auto">
+        Uprav AI generovaný text tak, aby pôsobil prirodzenejšie a mal nižšie riziko detekcie
+      </p>
+    </header>
+
+    <div class="bg-amber-950/40 border border-amber-800/50 rounded-xl p-4 text-amber-200 text-sm mb-8">
+      <strong>⚠️ Dôležité:</strong> Táto stránka robí <strong>základné úpravy</strong> (výmena fráz, skrátenie viet, drobné preformulovania). 
+      Najlepší výsledok dosiahneš, keď text ešte raz prejdeš vlastnými slovami a doplníš konkrétne príklady z praxe.
+    </div>
+
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 mb-8 shadow-xl space-y-5">
+      <div>
+        <label class="block text-sm font-medium text-slate-300 mb-2">Vlož text na humanizáciu</label>
+        <textarea id="vstup" rows="10" placeholder="Sem vlož AI generovaný text..."
+          class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-y"></textarea>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <button onclick="humanizovat()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-xl transition-colors">
+          Humanizovať text
+        </button>
+        <button onclick="kopirovatVystup()" class="bg-slate-700 hover:bg-slate-600 text-slate-200 font-medium px-6 py-3 rounded-xl transition-colors">
+          Kopírovať výsledok
+        </button>
+        <button onclick="vymazat()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium px-6 py-3 rounded-xl transition-colors">
+          Vymazať
+        </button>
+      </div>
+    </div>
+
+    <div id="vysledok" class="hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold">Upravený text</h2>
+          <span id="info" class="text-xs text-slate-400"></span>
+        </div>
+        <textarea id="vystup" rows="12" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-y"></textarea>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+        <h2 class="text-xl font-semibold mb-3">Čo bolo upravené</h2>
+        <ul id="zmeny" class="space-y-1.5 text-sm text-slate-300"></ul>
+      </div>
+    </div>
+
+    <!-- Tips -->
+    <section class="mt-12 bg-slate-900 border border-slate-800 rounded-2xl p-6">
+      <h2 class="text-xl font-semibold mb-4">Ako humanizovať text manuálne (najlepší výsledok)</h2>
+      <ul class="list-disc list-inside space-y-2 text-sm text-slate-300">
+        <li><strong>Skracuj dlhé vety</strong> – AI často píše veľmi dlhé, zložité súvetia.</li>
+        <li><strong>Striedaj dĺžku viet</strong> – krátka, dlhšia, stredná.</li>
+        <li><strong>Vyhoď typické AI frázy</strong> (v súčasnej dobe, je dôležité poznamenať, z hľadiska, v rámci tejto problematiky…).</li>
+        <li><strong>Pridaj konkrétne príklady</strong> z tvojho prieskumu / fotiek / praxe.</li>
+        <li><strong>Použi vlastné formulácie</strong> – prepíš odsek vlastnými slovami, nielen vymeň synonymá.</li>
+        <li><strong>Pridaj drobné nepravidelnosti</strong> – ľudský text nie je ideálne hladký.</li>
+        <li>Po úprave text znova skontroluj na stránke <a href="ai-check.html" class="text-indigo-400 hover:underline">Overenie AI</a>.</li>
+      </ul>
+    </section>
+
+    <section class="mt-8 bg-slate-900 border border-slate-800 rounded-2xl p-6">
+      <h2 class="text-xl font-semibold mb-3">Prompt na ďalšiu humanizáciu (skopíruj do Grok)</h2>
+      <pre class="bg-slate-950/70 rounded-xl p-4 text-sm text-slate-300 overflow-x-auto whitespace-pre-wrap">Prepíš nasledujúci text tak, aby pôsobil prirodzene a ľudsky. 
+Skráť príliš dlhé vety, odstráň typické AI frázy, pridaj viac variability. 
+Zachovaj odborný tón vhodný pre bakalársku prácu, ale nech to neznie ako generované.
+
+Text:
+[sem vlož text]</pre>
+    </section>
+
+    <footer class="mt-16 text-center text-slate-500 text-sm">
+      <a href="index.html" class="text-indigo-400 hover:underline">Generátor</a> · 
+      <a href="ai-check.html" class="text-indigo-400 hover:underline">Overenie AI</a> · 
+      Upravené pre <strong class="text-emerald-400">UNIZA</strong>
+    </footer>
+  </div>
+
+  <script>
+    // Typické AI frázy → prirodzenejšie varianty
+    const nahrady = [
+      [/v súčasnej dobe/gi, 'dnes'],
+      [/v súčasnosti/gi, 'dnes'],
+      [/je dôležité poznamenať,? že/gi, 'treba povedať, že'],
+      [/je potrebné zdôrazniť,? že/gi, 'treba zdôrazniť, že'],
+      [/na základe uvedeného/gi, 'z toho'],
+      [/na základe dostupných informácií/gi, 'podľa dostupných informácií'],
+      [/z hľadiska/gi, 'z pohľadu'],
+      [/v rámci tejto problematiky/gi, 'v tejto oblasti'],
+      [/v rámci/gi, 'v'],
+      [/možno konštatovať,? že/gi, 'dá sa povedať, že'],
+      [/z uvedeného vyplýva,? že/gi, 'z toho vyplýva, že'],
+      [/v neposlednom rade/gi, 'tiež'],
+      [/za zmienku stojí/gi, 'stoji za zmienku'],
+      [/je vhodné uviesť/gi, 'dá sa uviesť'],
+      [/táto kapitola sa zaoberá/gi, 'táto kapitola sa venuje'],
+      [/cielom tejto časti/gi, 'cieľom tejto časti'],
+      [/v nasledujúcej časti/gi, 'ďalej'],
+      [/v kontexte/gi, 'v súvislosti s'],
+      [/it is important to note that/gi, 'it should be noted that'],
+      [/furthermore,/gi, 'also,'],
+      [/moreover,/gi, 'also,'],
+      [/in conclusion,/gi, 'to sum up,'],
+      [/a comprehensive understanding/gi, 'a good understanding'],
+      [/plays a crucial role/gi, 'is important'],
+      [/it is essential to/gi, 'it is necessary to'],
+      [/in the context of/gi, 'regarding'],
+      [/delve into/gi, 'look at']
+    ];
+
+    function humanizovat() {
+      let text = document.getElementById('vstup').value.trim();
+      if (!text || text.length < 20) {
+        alert('Vlož prosím dlhší text.');
+        return;
+      }
+
+      let zmeny = [];
+      let povodny = text;
+
+      // 1. Výmena typických fráz
+      nahrady.forEach(([vzor, nahrada]) => {
+        if (vzor.test(text)) {
+          text = text.replace(vzor, nahrada);
+          zmeny.push(`Nahradená fráza → "${nahrada}"`);
+        }
+      });
+
+      // 2. Rozdelenie veľmi dlhých viet (jednoduché)
+      const vety = text.split(/(?<=[.!?])\s+/);
+      const noveVety = [];
+      vety.forEach(veta => {
+        const slov = veta.trim().split(/\s+/).length;
+        if (slov > 35 && veta.includes(',')) {
+          // pokus o rozdelenie na čarke
+          const casti = veta.split(/,\s+/);
+          if (casti.length >= 2) {
+            let spojene = casti[0];
+            for (let i = 1; i < casti.length; i++) {
+              if ((spojene + ', ' + casti[i]).split(/\s+/).length > 28) {
+                noveVety.push(spojene.trim() + '.');
+                spojene = casti[i].charAt(0).toUpperCase() + casti[i].slice(1);
+              } else {
+                spojene += ', ' + casti[i];
+              }
+            }
+            if (spojene) noveVety.push(spojene.trim());
+            zmeny.push('Rozdelená veľmi dlhá veta');
+          } else {
+            noveVety.push(veta);
+          }
+        } else {
+          noveVety.push(veta);
+        }
+      });
+      text = noveVety.join(' ').replace(/\.\s+\./g, '.');
+
+      // 3. Drobné úpravy
+      text = text
+        .replace(/\s{2,}/g, ' ')
+        .replace(/\s+([,.])/g, '$1')
+        .trim();
+
+      // 4. Ak sa nič veľké nezmenilo, pridaj aspoň info
+      if (zmeny.length === 0) {
+        zmeny.push('Neboli nájdené typické AI frázy – text už pôsobí relatívne prirodzene, alebo ho treba prepracovať manuálne.');
+      }
+
+      // Unikátne zmeny
+      zmeny = [...new Set(zmeny)];
+
+      document.getElementById('vystup').value = text;
+      document.getElementById('zmeny').innerHTML = zmeny.map(z => `<li class="flex gap-2"><span class="text-emerald-400">●</span> ${z}</li>`).join('');
+      document.getElementById('info').textContent = `Pôvodne ${povodny.length} znakov → ${text.length} znakov`;
+      document.getElementById('vysledok').classList.remove('hidden');
+      document.getElementById('vysledok').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function kopirovatVystup() {
+      const text = document.getElementById('vystup').value;
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(() => alert('Text skopírovaný!'));
+    }
+
+    function vymazat() {
+      document.getElementById('vstup').value = '';
+      document.getElementById('vystup').value = '';
+      document.getElementById('vysledok').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
