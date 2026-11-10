@@ -3,64 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Overenie AI textu a podobnosti</title>
+  <title>UNIZA – Overenie AI textu a originality</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', system-ui, sans-serif; }
-  </style>
+  <style>body { font-family: 'Inter', system-ui, sans-serif; }</style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen">
   <div class="max-w-4xl mx-auto px-4 py-10">
 
-    <!-- Navigation -->
-    <nav class="flex gap-4 mb-8 text-sm">
+    <nav class="flex flex-wrap gap-4 mb-8 text-sm justify-center items-center">
       <a href="index.html" class="text-slate-400 hover:text-indigo-400 transition-colors">← Generátor štruktúry</a>
       <span class="text-slate-600">|</span>
       <span class="text-indigo-400 font-medium">Overenie AI / zhody</span>
+      <span class="text-slate-600">|</span>
+      <span class="bg-emerald-900/50 text-emerald-300 text-xs px-2.5 py-1 rounded-full border border-emerald-700/50">UNIZA</span>
     </nav>
 
-    <!-- Header -->
     <header class="mb-10 text-center">
+      <p class="text-emerald-400/90 text-sm font-medium mb-2">Žilinská univerzita v Žiline</p>
       <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-3">
-        Overenie AI textu a podobnosti
+        Overenie AI textu a originality
       </h1>
       <p class="text-slate-400 text-lg max-w-2xl mx-auto">
-        Jednoduchá analýza textu na typické znaky AI generovaného písania + tipy na kontrolu originality
+        Orientačná analýza + tipy pre študentov UNIZA (EZP, kontrola originality)
       </p>
     </header>
 
-    <!-- Warning -->
     <div class="bg-amber-950/40 border border-amber-800/50 rounded-xl p-4 text-amber-200 text-sm mb-8">
-      <strong>⚠️ Obmedzenie:</strong> Toto je <strong>heuristická analýza</strong> (nie oficiálny AI detektor ani antiplagiátorský systém). 
-      Výsledok ber len ako orientačný. Pre reálnu kontrolu použi nástroje nižšie (GPTZero, Turnitin, Ouriginal atď.).
+      <strong>⚠️ Pre UNIZA:</strong> Oficiálna kontrola originality prebieha cez systém <strong>Evidencie záverečných prác (EZP)</strong>. 
+      Táto stránka je len orientačná. Pri použití generatívnej AI dodržuj aktuálny <strong>Príkaz rektora</strong> o generatívnej umelej inteligencii.
     </div>
 
-    <!-- Input -->
     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 mb-8 shadow-xl">
       <label class="block text-sm font-medium text-slate-300 mb-2">Vlož text na kontrolu</label>
-      <textarea id="text" rows="12" placeholder="Sem vlož text kapitoly, abstraktu alebo celej časti práce..."
+      <textarea id="text" rows="12" placeholder="Sem vlož text kapitoly, abstraktu alebo časti práce..."
         class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-y"></textarea>
       
       <div class="flex flex-wrap gap-3 mt-4">
-        <button onclick="analyzovat()" 
-          class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-xl transition-colors">
+        <button onclick="analyzovat()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-xl transition-colors">
           Analyzovať text
         </button>
-        <button onclick="vymazat()" 
-          class="bg-slate-700 hover:bg-slate-600 text-slate-200 font-medium px-6 py-3 rounded-xl transition-colors">
+        <button onclick="vymazat()" class="bg-slate-700 hover:bg-slate-600 text-slate-200 font-medium px-6 py-3 rounded-xl transition-colors">
           Vymazať
         </button>
       </div>
     </div>
 
-    <!-- Results -->
     <div id="vysledok" class="hidden space-y-6">
-
-      <!-- Score card -->
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
         <h2 class="text-xl font-semibold mb-4">Výsledok analýzy</h2>
-        
         <div class="flex flex-col md:flex-row gap-6 items-start">
           <div class="flex-shrink-0 text-center">
             <div id="skore-kruh" class="w-32 h-32 rounded-full border-8 flex items-center justify-center mx-auto mb-2">
@@ -68,7 +59,6 @@
             </div>
             <p id="skore-label" class="text-sm font-medium"></p>
           </div>
-          
           <div class="flex-1 space-y-3 text-sm text-slate-300">
             <p id="skore-popis"></p>
             <div id="detailne-skore" class="grid grid-cols-2 gap-2 mt-4"></div>
@@ -76,72 +66,64 @@
         </div>
       </div>
 
-      <!-- Detected patterns -->
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
         <h2 class="text-xl font-semibold mb-4">Nájdené vzory</h2>
         <ul id="vzory" class="space-y-2 text-sm text-slate-300"></ul>
       </div>
 
-      <!-- Stats -->
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-        <h2 class="text-xl font-semibold mb-4">Základné štatistiky textu</h2>
+        <h2 class="text-xl font-semibold mb-4">Základné štatistiky</h2>
         <div id="statistika" class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm"></div>
       </div>
 
-      <!-- Recommendations -->
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-        <h2 class="text-xl font-semibold mb-4">Odporúčania</h2>
+        <h2 class="text-xl font-semibold mb-4">Odporúčania pre študentov UNIZA</h2>
         <ul id="odporucania" class="list-disc list-inside space-y-2 text-sm text-slate-300"></ul>
       </div>
     </div>
 
-    <!-- External tools -->
     <section class="mt-12 bg-slate-900 border border-slate-800 rounded-2xl p-6">
-      <h2 class="text-xl font-semibold mb-4">Odporúčané nástroje na reálnu kontrolu</h2>
+      <h2 class="text-xl font-semibold mb-4">Oficiálne a odporúčané nástroje</h2>
       
-      <div class="grid md:grid-cols-2 gap-4 text-sm">
+      <div class="grid md:grid-cols-2 gap-6 text-sm">
         <div>
-          <h3 class="font-medium text-indigo-400 mb-2">Detekcia AI</h3>
+          <h3 class="font-medium text-emerald-400 mb-2">UNIZA systémy</h3>
           <ul class="space-y-1.5 text-slate-300">
-            <li>• <a href="https://gptzero.me" target="_blank" class="hover:underline">GPTZero</a> – populárny AI detektor</li>
-            <li>• <a href="https://www.originality.ai" target="_blank" class="hover:underline">Originality.ai</a></li>
-            <li>• <a href="https://copyleaks.com/ai-content-detector" target="_blank" class="hover:underline">Copyleaks AI Detector</a></li>
-            <li>• <a href="https://writer.com/ai-content-detector/" target="_blank" class="hover:underline">Writer.com AI Detector</a></li>
+            <li>• <strong>EZP</strong> – Evidencia záverečných prác (kniznica.uniza.sk/ezp)</li>
+            <li>• Smernica č. 215 o záverečných prácach</li>
+            <li>• Príkaz rektora o generatívnej AI</li>
+            <li>• Oficiálna šablóna práce (podľa fakulty)</li>
           </ul>
         </div>
         <div>
-          <h3 class="font-medium text-indigo-400 mb-2">Kontrola originality / plagiarizmu</h3>
+          <h3 class="font-medium text-indigo-400 mb-2">Externé AI detektory</h3>
           <ul class="space-y-1.5 text-slate-300">
-            <li>• <strong>Turnitin</strong> / <strong>Ouriginal</strong> – často používajú školy</li>
+            <li>• <a href="https://gptzero.me" target="_blank" class="hover:underline">GPTZero</a></li>
+            <li>• <a href="https://www.originality.ai" target="_blank" class="hover:underline">Originality.ai</a></li>
+            <li>• <a href="https://copyleaks.com/ai-content-detector" target="_blank" class="hover:underline">Copyleaks</a></li>
             <li>• <a href="https://www.scribbr.com/plagiarism-checker/" target="_blank" class="hover:underline">Scribbr</a></li>
-            <li>• <a href="https://www.quetext.com" target="_blank" class="hover:underline">Quetext</a></li>
-            <li>• <a href="https://smallseotools.com/plagiarism-checker/" target="_blank" class="hover:underline">SmallSEOTools</a> (základné)</li>
           </ul>
         </div>
       </div>
 
       <p class="mt-5 text-slate-400 text-xs">
-        Tip: Na slovenských a českých školách sa najčastejšie používa <strong>Theses.cz</strong> / <strong>Turnitin</strong> / <strong>Ouriginal</strong>. 
-        Pred odovzdaním si prácu vždy skontroluj sám.
+        Pred odovzdaním do EZP si prácu vždy skontroluj sám. Vysoká zhoda alebo podozrenie na AI môže viesť k neobhájeniu práce.
       </p>
     </section>
 
     <footer class="mt-16 text-center text-slate-500 text-sm">
       <a href="index.html" class="text-indigo-400 hover:underline">Generátor štruktúry</a> · 
-      <a href="https://github.com/pumba145/bakalarska-praca-generator" class="text-indigo-400 hover:underline">Zdrojový kód</a>
+      Upravené pre <strong class="text-emerald-400">UNIZA</strong>
     </footer>
   </div>
 
   <script>
-    // Typické frázy, ktoré AI často používa (SK + EN)
     const aiFraze = [
-      // Slovenčina
       'v súčasnej dobe', 'je dôležité poznamenať', 'na základe uvedeného', 'možno konštatovať',
       'v rámci tejto problematiky', 'z hľadiska', 'v kontexte', 'je potrebné zdôrazniť',
       'na základe dostupných informácií', 'z uvedeného vyplýva', 'v závere možno',
       'táto kapitola sa zaoberá', 'cielom tejto časti', 'v nasledujúcej časti',
       'je vhodné uviesť', 'za zmienku stojí', 'v neposlednom rade',
-      // English
       'it is important to note', 'in conclusion', 'furthermore', 'moreover',
       'it can be argued', 'in the context of', 'this chapter aims', 'as previously mentioned',
       'it is worth noting', 'in light of', 'a comprehensive understanding', 'delve into',
@@ -160,62 +142,31 @@
       const slova = text.split(/\s+/).filter(s => s.length > 0);
       const znaky = text.length;
 
-      // 1. Priemerná dĺžka vety
       const priemDlzkaVety = vety.length ? (slova.length / vety.length) : 0;
-
-      // 2. Variabilita dĺžky viet (burstiness) – nižšia = viac AI-like
       const dlzky = vety.map(v => v.trim().split(/\s+/).length);
       const priemer = dlzky.reduce((a,b) => a+b, 0) / (dlzky.length || 1);
       const variancia = dlzky.reduce((sum, d) => sum + Math.pow(d - priemer, 2), 0) / (dlzky.length || 1);
       const stdDev = Math.sqrt(variancia);
 
-      // 3. Počet AI fráz
       let najdeneFraze = [];
       aiFraze.forEach(f => {
-        if (lower.includes(f.toLowerCase())) {
-          najdeneFraze.push(f);
-        }
+        if (lower.includes(f.toLowerCase())) najdeneFraze.push(f);
       });
 
-      // 4. Opakovanie slov (jednoduchá miera)
-      const frekvencia = {};
-      slova.forEach(s => {
-        const w = s.toLowerCase().replace(/[^a-záäčďéíĺľňóôŕšťúýž]/gi, '');
-        if (w.length > 3) frekvencia[w] = (frekvencia[w] || 0) + 1;
-      });
-      const topOpakovania = Object.entries(frekvencia)
-        .filter(([_, c]) => c > 4)
-        .sort((a,b) => b[1] - a[1])
-        .slice(0, 5);
-
-      // 5. Podiel dlhých viet
       const dlheVety = dlzky.filter(d => d > 25).length;
       const podielDlhe = vety.length ? (dlheVety / vety.length) * 100 : 0;
+      const otazniky = (text.match(/\?/g) || []).length;
 
-      // Výpočet skóre (0–100, vyššie = viac AI-like)
-      let skore = 30; // základ
-
-      // Nízka variabilita viet → +body
+      let skore = 30;
       if (stdDev < 4) skore += 18;
       else if (stdDev < 6) skore += 10;
       else if (stdDev > 10) skore -= 8;
-
-      // Veľa AI fráz
       skore += Math.min(najdeneFraze.length * 6, 25);
-
-      // Veľmi rovnomerné dĺžky viet
       if (priemDlzkaVety > 18 && priemDlzkaVety < 28 && stdDev < 5) skore += 12;
-
-      // Veľa veľmi dlhých viet
       if (podielDlhe > 30) skore += 8;
-
-      // Príliš čistý / formálny štýl (málo skratiek, otázníkov atď.)
-      const otazniky = (text.match(/\?/g) || []).length;
       if (otazniky === 0 && text.length > 400) skore += 5;
-
       skore = Math.max(5, Math.min(95, Math.round(skore)));
 
-      // Zobrazenie
       const kruh = document.getElementById('skore-kruh');
       const cislo = document.getElementById('skore-cislo');
       const label = document.getElementById('skore-label');
@@ -227,90 +178,54 @@
         kruh.className = 'w-32 h-32 rounded-full border-8 border-emerald-500 flex items-center justify-center mx-auto mb-2';
         label.textContent = 'Skôr ľudský text';
         label.className = 'text-sm font-medium text-emerald-400';
-        popis.textContent = 'Text má relatívne dobrú variabilitu a menej typických AI vzorov. Stále ho však odporúčame skontrolovať oficiálnymi nástrojmi.';
+        popis.textContent = 'Text má relatívne dobrú variabilitu. Stále ho odporúčame skontrolovať pred vložením do EZP.';
       } else if (skore < 60) {
         kruh.className = 'w-32 h-32 rounded-full border-8 border-amber-500 flex items-center justify-center mx-auto mb-2';
         label.textContent = 'Zmierené riziko AI';
         label.className = 'text-sm font-medium text-amber-400';
-        popis.textContent = 'Text obsahuje niektoré znaky typické pre AI. Odporúčame ho prepracovať – skrátiť vety, pridať vlastné príklady a menej formálne formulácie.';
+        popis.textContent = 'Text obsahuje niektoré znaky AI. Odporúčame prepracovanie – vlastné príklady, kratšie vety, menej formálne formulácie.';
       } else {
         kruh.className = 'w-32 h-32 rounded-full border-8 border-rose-500 flex items-center justify-center mx-auto mb-2';
         label.textContent = 'Vysoká pravdepodobnosť AI';
         label.className = 'text-sm font-medium text-rose-400';
-        popis.textContent = 'Text vykazuje viacero typických znakov AI generovaného obsahu (rovnomerné vety, frázy, formálny štýl). Silne odporúčame prepracovanie vlastnými slovami.';
+        popis.textContent = 'Text vykazuje viacero typických znakov AI. Pred odovzdaním na UNIZA ho silne odporúčame prepracovať vlastnými slovami.';
       }
 
-      // Detailné skóre
       document.getElementById('detailne-skore').innerHTML = `
-        <div class="bg-slate-950/60 rounded-lg p-3">
-          <div class="text-slate-400 text-xs">Variabilita viet</div>
-          <div class="font-medium">${stdDev.toFixed(1)}</div>
-        </div>
-        <div class="bg-slate-950/60 rounded-lg p-3">
-          <div class="text-slate-400 text-xs">AI frázy</div>
-          <div class="font-medium">${najdeneFraze.length}</div>
-        </div>
-        <div class="bg-slate-950/60 rounded-lg p-3">
-          <div class="text-slate-400 text-xs">Priem. dĺžka vety</div>
-          <div class="font-medium">${priemDlzkaVety.toFixed(1)} slov</div>
-        </div>
-        <div class="bg-slate-950/60 rounded-lg p-3">
-          <div class="text-slate-400 text-xs">Dlhé vety (>25)</div>
-          <div class="font-medium">${podielDlhe.toFixed(0)} %</div>
-        </div>
+        <div class="bg-slate-950/60 rounded-lg p-3"><div class="text-slate-400 text-xs">Variabilita viet</div><div class="font-medium">${stdDev.toFixed(1)}</div></div>
+        <div class="bg-slate-950/60 rounded-lg p-3"><div class="text-slate-400 text-xs">AI frázy</div><div class="font-medium">${najdeneFraze.length}</div></div>
+        <div class="bg-slate-950/60 rounded-lg p-3"><div class="text-slate-400 text-xs">Priem. dĺžka vety</div><div class="font-medium">${priemDlzkaVety.toFixed(1)} slov</div></div>
+        <div class="bg-slate-950/60 rounded-lg p-3"><div class="text-slate-400 text-xs">Dlhé vety (>25)</div><div class="font-medium">${podielDlhe.toFixed(0)} %</div></div>
       `;
 
-      // Vzory
       let vzoryHtml = '';
       if (najdeneFraze.length) {
-        vzoryHtml += `<li class="flex gap-2"><span class="text-rose-400">●</span> Nájdené typické AI frázy: <em>${najdeneFraze.slice(0,8).join(', ')}${najdeneFraze.length > 8 ? '...' : ''}</em></li>`;
+        vzoryHtml += `<li class="flex gap-2"><span class="text-rose-400">●</span> Typické AI frázy: <em>${najdeneFraze.slice(0,8).join(', ')}${najdeneFraze.length > 8 ? '...' : ''}</em></li>`;
       }
-      if (stdDev < 5) {
-        vzoryHtml += `<li class="flex gap-2"><span class="text-amber-400">●</span> Nízka variabilita dĺžky viet (text pôsobí rovnomerným / „hladkým“ štýlom)</li>`;
-      }
-      if (podielDlhe > 25) {
-        vzoryHtml += `<li class="flex gap-2"><span class="text-amber-400">●</span> Vyšší podiel veľmi dlhých viet</li>`;
-      }
-      if (otazniky === 0 && text.length > 300) {
-        vzoryHtml += `<li class="flex gap-2"><span class="text-slate-400">●</span> Žiadne otázky v texte (AI často píše deklaratívne)</li>`;
-      }
-      if (!vzoryHtml) {
-        vzoryHtml = '<li class="text-slate-400">Neboli nájdené výrazné podozrivé vzory.</li>';
-      }
+      if (stdDev < 5) vzoryHtml += `<li class="flex gap-2"><span class="text-amber-400">●</span> Nízka variabilita dĺžky viet</li>`;
+      if (podielDlhe > 25) vzoryHtml += `<li class="flex gap-2"><span class="text-amber-400">●</span> Vyšší podiel veľmi dlhých viet</li>`;
+      if (otazniky === 0 && text.length > 300) vzoryHtml += `<li class="flex gap-2"><span class="text-slate-400">●</span> Žiadne otázky v texte</li>`;
+      if (!vzoryHtml) vzoryHtml = '<li class="text-slate-400">Neboli nájdené výrazné podozrivé vzory.</li>';
       document.getElementById('vzory').innerHTML = vzoryHtml;
 
-      // Štatistiky
       document.getElementById('statistika').innerHTML = `
-        <div class="bg-slate-950/50 rounded-xl p-4 text-center">
-          <div class="text-2xl font-bold text-indigo-400">${slova.length}</div>
-          <div class="text-xs text-slate-400 mt-1">slov</div>
-        </div>
-        <div class="bg-slate-950/50 rounded-xl p-4 text-center">
-          <div class="text-2xl font-bold text-indigo-400">${vety.length}</div>
-          <div class="text-xs text-slate-400 mt-1">viet</div>
-        </div>
-        <div class="bg-slate-950/50 rounded-xl p-4 text-center">
-          <div class="text-2xl font-bold text-indigo-400">${znaky}</div>
-          <div class="text-xs text-slate-400 mt-1">znakov</div>
-        </div>
-        <div class="bg-slate-950/50 rounded-xl p-4 text-center">
-          <div class="text-2xl font-bold text-indigo-400">${priemDlzkaVety.toFixed(1)}</div>
-          <div class="text-xs text-slate-400 mt-1">slov / veta</div>
-        </div>
+        <div class="bg-slate-950/50 rounded-xl p-4 text-center"><div class="text-2xl font-bold text-indigo-400">${slova.length}</div><div class="text-xs text-slate-400 mt-1">slov</div></div>
+        <div class="bg-slate-950/50 rounded-xl p-4 text-center"><div class="text-2xl font-bold text-indigo-400">${vety.length}</div><div class="text-xs text-slate-400 mt-1">viet</div></div>
+        <div class="bg-slate-950/50 rounded-xl p-4 text-center"><div class="text-2xl font-bold text-indigo-400">${znaky}</div><div class="text-xs text-slate-400 mt-1">znakov</div></div>
+        <div class="bg-slate-950/50 rounded-xl p-4 text-center"><div class="text-2xl font-bold text-indigo-400">${priemDlzkaVety.toFixed(1)}</div><div class="text-xs text-slate-400 mt-1">slov / veta</div></div>
       `;
 
-      // Odporúčania
       let odporucania = [];
       if (skore >= 50) {
-        odporucania.push('Prepíš text vlastnými slovami – nemeň len jednotlivé výrazy, ale celé odseky.');
-        odporucania.push('Pridaj konkrétne príklady, osobné pozorovania alebo dáta z vlastného výskumu.');
-        odporucania.push('Skráť niektoré dlhé vety a striedaj krátke a dlhé vety.');
+        odporucania.push('Prepíš text vlastnými slovami – nemeň len slová, ale celé odseky.');
+        odporucania.push('Pridaj konkrétne príklady, dáta z vlastného merania alebo firmy.');
+        odporucania.push('Striedaj krátke a dlhé vety, zníž formálnosť.');
       }
       if (najdeneFraze.length > 2) {
-        odporucania.push('Odstráň alebo preformuluj typické AI frázy (napr. „v súčasnej dobe“, „je dôležité poznamenať“).');
+        odporucania.push('Odstráň typické AI frázy (napr. „v súčasnej dobe“, „je dôležité poznamenať“).');
       }
-      odporucania.push('Vždy cituj zdroje a použi oficiálny antiplagiátorský systém školy pred odovzdaním.');
-      odporucania.push('Pre spoľahlivejšiu detekciu AI použi GPTZero alebo Originality.ai.');
+      odporucania.push('Pred odovzdaním do EZP skontroluj prácu a dodržuj citačnú etiku (ISO 690).');
+      odporucania.push('Pri použití AI dodržuj aktuálny Príkaz rektora UNIZA o generatívnej AI.');
 
       document.getElementById('odporucania').innerHTML = odporucania.map(o => `<li>${o}</li>`).join('');
 
